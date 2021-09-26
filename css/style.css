@@ -1,0 +1,80 @@
+.text {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+
+#timestampDiv {
+    margin-left: 60%;
+    padding-bottom: 25px;
+    padding-top: 10px;
+}
+
+#timestampSpan {
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+#add {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px calc(50% - 75px);
+    cursor: pointer;
+    border-radius: 12px;
+}   
+
+.noteOuter {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #5BCEFA;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 12px;
+}
+
+.remove {
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f28c33;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;    
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.noteInner {
+    width: 500px;
+    word-wrap: break-word;
+
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #5BCEFA;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    border-radius: 12px;
+}
+
+/* Index page */
+#indexLinks {
+    width: 100%;
+    text-align: center;
+}
