@@ -1,3 +1,6 @@
+// Text to show to user
+let retrievedAtText = "retrieved at: ";
+
 function retrieveLocalStorage(){
     let notesJSON = localStorage.getItem("notes");
     let notes = JSON.parse(notesJSON);
@@ -6,7 +9,7 @@ function retrieveLocalStorage(){
     displayNotes(notes);
 
     // Set the "stored at" text to display the current time
-    document.getElementById("timestampSpan").innerHTML = "retrieved at: " + new Date().toLocaleTimeString();
+    document.getElementById("timestampSpan").innerHTML = retrievedAtText + new Date().toLocaleTimeString();
 }
 
 function displayNotes(notes){

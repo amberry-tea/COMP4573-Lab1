@@ -1,4 +1,8 @@
-var notes = [];
+let notes = [];
+
+// Text to show to user
+let storedText = "stored at: ";
+let removeButtonText = "Remove";
 
 function Note(text, element) {
     this.text = text;
@@ -9,15 +13,15 @@ function removeNote(source){
     let index = parseInt(source.parentNode.id.substring(4));
     
     // Remove this note from the notes
-    console.log("Removing note number " + index + " from :\n" + notes);
+    //console.log("Removing note number " + index + " from :\n" + notes);
     notes.splice(index, 1);
-    console.log("Note " + index + " removed! Result :\n" + notes);
+    //console.log("Note " + index + " removed! Result :\n" + notes);
 
     // Remove this note
     source.parentNode.remove();
 
     // Rename the other notes IDs to replace them with an index that is one lower (to preserve order)
-    for(var i = index + 1; i < notes.length + 1; i++){
+    for(let i = index + 1; i < notes.length + 1; i++){
         document.getElementById("note"+i).id = "note"+(i-1);
     }
 }
@@ -42,7 +46,7 @@ function addNote(){
     let button = document.createElement("button");
     button.setAttribute("class", "remove");
     button.setAttribute("onclick", "removeNote(this);");
-    button.innerHTML = "Remove";
+    button.innerHTML = removeButtonText;
     note.appendChild(button);
 
     notesDiv.appendChild(note);
@@ -76,7 +80,7 @@ function updateLocalStorage(){
     localStorage.setItem("notes", JSON.stringify(notes));
 
     // Set the "stored at" text to display the current time
-    document.getElementById("timestampSpan").innerHTML = "stored at: " + new Date().toLocaleTimeString();
+    document.getElementById("timestampSpan").innerHTML = storedText + new Date().toLocaleTimeString();
 }
 
 // Run the update of local cache every two seconds
