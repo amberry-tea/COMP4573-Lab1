@@ -65,6 +65,9 @@ function updateLocalStorage(){
 
     console.log(notes);
     localStorage.setItem("notes", JSON.stringify(notes));
+
+    // Set the "stored at" text to display the current time
+    document.getElementById("timestampSpan").innerHTML = "stored at: " + new Date().toLocaleTimeString();
 }
 
 // Run the update of local cache every two seconds
