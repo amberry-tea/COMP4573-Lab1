@@ -1,9 +1,14 @@
 var notes = [];
 
+function Note(text, element) {
+    this.text = text;
+    this.element = element;
+}
+
 function removeNote(source){
-    index = parseInt(source.parentNode.id.substring(4));
+    let index = parseInt(source.parentNode.id.substring(4));
     
-    // Remove this note from the ntoes
+    // Remove this note from the notes
     console.log("Removing note number " + index + " from :\n" + notes);
     notes.splice(index, 1);
     console.log("Note " + index + " removed! Result :\n" + notes);
@@ -18,30 +23,32 @@ function removeNote(source){
 }
 
 function addNote(){
-    // Add a new element to the notes array
-    notes.push("");
+    index = notes.length;
 
     // Add a new element to the document for the note
-    notesDiv = document.getElementById("notes");
+    let notesDiv = document.getElementById("notes");
 
-    note = document.createElement("div");
-    note.setAttribute("id", "note"+(notes.length-1));
+    let note = document.createElement("div");
+    note.setAttribute("id", "note"+(index));
 
-    noteOuter = document.createElement("div");
+    let noteOuter = document.createElement("div");
     noteOuter.setAttribute("class", "noteOuter");
     note.appendChild(noteOuter);
 
-    noteInner = document.createElement("textArea");
+    let noteInner = document.createElement("textArea");
     noteInner.setAttribute("class", "noteInner");
     noteOuter.appendChild(noteInner);
 
-    button = document.createElement("button");
+    let button = document.createElement("button");
     button.setAttribute("class", "remove");
     button.setAttribute("onclick", "removeNote(this);");
     button.innerHTML = "Remove";
     note.appendChild(button);
 
     notesDiv.appendChild(note);
+
+    // Add a new element to the notes array
+    notes.push(new Note("", note));
 
 
     // notesDiv.innerHTML += 
@@ -58,12 +65,14 @@ function addNote(){
 }
 
 function updateLocalStorage(){
-    console.log("Update!");
-    for(i = 0; document.getElementById("note" + i) != null; i++){
-        notes[i] = document.getElementById("note" + i).children[0].children[0].value;
+    // Add the text from each text area to their note object
+    for(i = 0; i < notes.length; i++){
+        notes[i].text = notes[i].element.children[0].children[0].value;
     }
 
-    console.log(notes);
+    // console.log(notes);
+
+    // Update the local storage
     localStorage.setItem("notes", JSON.stringify(notes));
 
     // Set the "stored at" text to display the current time
