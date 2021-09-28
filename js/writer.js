@@ -1,8 +1,8 @@
-let notes = [];
+const notes = [];
 
 // Text to show to user
-let storedText = "stored at: ";
-let removeButtonText = "Remove";
+const storedText = "stored at: ";
+const removeButtonText = "Remove";
 
 function Note(text, element) {
     this.text = text;
@@ -10,7 +10,7 @@ function Note(text, element) {
 }
 
 function removeNote(source){
-    let index = parseInt(source.parentNode.id.substring(4));
+    const index = parseInt(source.parentNode.id.substring(4));
     
     // Remove this note from the notes
     //console.log("Removing note number " + index + " from :\n" + notes);
@@ -70,7 +70,7 @@ function addNote(){
 
 function updateLocalStorage(){
     // Add the text from each text area to their note object
-    for(i = 0; i < notes.length; i++){
+    for(let i = 0; i < notes.length; i++){
         notes[i].text = notes[i].element.children[0].children[0].value;
     }
 

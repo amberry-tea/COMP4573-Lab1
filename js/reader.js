@@ -1,9 +1,9 @@
 // Text to show to user
-let retrievedAtText = "retrieved at: ";
+const retrievedAtText = "retrieved at: ";
 
 function retrieveLocalStorage(){
-    let notesJSON = localStorage.getItem("notes");
-    let notes = JSON.parse(notesJSON);
+    const notesJSON = localStorage.getItem("notes");
+    const notes = JSON.parse(notesJSON);
     console.log(notes);
 
     displayNotes(notes);
