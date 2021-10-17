@@ -2,10 +2,11 @@ const http = require('http');
 const url = require('url');
 const GET = 'GET';
 const POST = 'POST';
+const utils = require('./modules/utils');
 
 const definitions = {
-    "hello": "A greeting.",
-    "goodbye": "Not a greeting."
+    "HELLO": "A greeting.",
+    "GOODBYE": "Not a greeting."
 };
 let requestCount = 0;
 
@@ -16,25 +17,25 @@ const server = http.createServer(function(req, res) {
         const qdata = qstring.query;
         if (qdata.word) {
             requestCount++;
-            const word = qdata.word.toLowerCase()
+            const word = qdata.word.toUpperCase()
             if (definitions[word]) {
                 res.writeHead(200, {'Content-Type': 'application/json'});
                 response = {
-                    term: word,
-                    definition: definitions[word],
-                    requests: requestCount
+                    'term': word,
+                    'definition': definitions[word],
+                    'requests': requestCount
                 };
             } else {
                 res.writeHead(400, {'Content-Type': 'application/json'});
                 response = {
-                    message: "That word isn't in our dictionary.",
-                    requests: requestCount
+                    'error-message': "That word isn't in our dictionary.",
+                    'requests': requestCount
                 };
             }
         } else {
             res.writeHead(400, {'Content-Type': 'application/json'});
             response = {
-                userMessage: "Invalid API call.",
+                'error-message': "Invalid API call.",
             };
         }
         res.end(JSON.stringify(response));
@@ -49,27 +50,33 @@ const server = http.createServer(function(req, res) {
             }
         });
         req.on('end', function () {
-            const q = url.parse(body, true);
+            const qstring = url.parse(body, true);
             const qdata = qstring.query;
             if (qdata.word) {
-                requestCount++;
-                const word = qdata.word.toLowerCase();
+                const word = qdata.word.toUpperCase();
                 if (definitions[word]) {
                     res.writeHead(400, {'Content-Type': 'application/json'});
                     response = {
-                        userMessage: "That word already has a definition."
+                        'error-message': "That word already has a definition."
                     };
-                } else {
+                } else if (utils.checkLettersOnly(word)) {
+                    requestCount++;
                     res.writeHead(200, {'Content-Type': 'application/json'});
                     definitions[word] = qdata.definition;
                     response = {
-                        userMessage: "Success!"
+                        'error-message': "Success!",
+                        'requests': requestCount
+                    };    
+                } else {
+                    res.writeHead(400, {'Content-Type': 'application/json'});
+                    response = {
+                        'error-message': "Terms may only include letters, not numbers of punctuation."
                     };
                 }
             } else {
                 res.writeHead(400, {'Content-Type': 'application/json'});
                 response = {
-                    userMessage: "Invalid API call.",
+                    'error-message': "Invalid API call.",
                 };
             }
             res.end(JSON.stringify(response));
