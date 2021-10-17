@@ -4,28 +4,28 @@ const GET = 'GET';
 const POST = 'POST';
 
 const definitions = {
-    "Hello": "A greeting.",
-    "Goodbye": "Not a greeting."
+    "hello": "A greeting.",
+    "goodbye": "Not a greeting."
 };
 let requestCount = 0;
 
 const server = http.createServer(function(req, res) {
-    let response;
-    if (req.method == GET) {
+    if (req.method === GET) {
+        let response;
         const qstring = url.parse(req.url, true);
         const qdata = qstring.query;
         if (qdata.word) {
-            if (definitions[qdata.word]) {
+            requestCount++;
+            const word = qdata.word.toLowerCase()
+            if (definitions[word]) {
                 res.writeHead(200, {'Content-Type': 'application/json'});
-                requestCount++;
                 response = {
-                    term: qdata.word,
-                    definition: definitions[qdata.word],
+                    term: word,
+                    definition: definitions[word],
                     requests: requestCount
                 };
             } else {
                 res.writeHead(400, {'Content-Type': 'application/json'});
-                requestCount++;
                 response = {
                     message: "That word isn't in our dictionary.",
                     requests: requestCount
@@ -37,8 +37,44 @@ const server = http.createServer(function(req, res) {
                 userMessage: "Invalid API call.",
             };
         }
+        res.end(JSON.stringify(response));
     }
-    res.end(JSON.stringify(response));
+    
+    if (req.method === POST) {
+        let body = "";
+        let response = {};
+        req.on('data', function (chunk) {
+            if (chunk != null) {
+                body += chunk;
+            }
+        });
+        req.on('end', function () {
+            const q = url.parse(body, true);
+            const qdata = qstring.query;
+            if (qdata.word) {
+                requestCount++;
+                const word = qdata.word.toLowerCase();
+                if (definitions[word]) {
+                    res.writeHead(400, {'Content-Type': 'application/json'});
+                    response = {
+                        userMessage: "That word already has a definition."
+                    };
+                } else {
+                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    definitions[word] = qdata.definition;
+                    response = {
+                        userMessage: "Success!"
+                    };
+                }
+            } else {
+                res.writeHead(400, {'Content-Type': 'application/json'});
+                response = {
+                    userMessage: "Invalid API call.",
+                };
+            }
+            res.end(JSON.stringify(response));
+        });
+    }
 });
 
 server.listen(8888);
