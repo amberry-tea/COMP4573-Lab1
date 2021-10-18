@@ -16,26 +16,39 @@ const server = http.createServer(function(req, res) {
         const qstring = url.parse(req.url, true);
         const qdata = qstring.query;
         if (qdata.word) {
-            requestCount++;
+            // If request query includes "word" parameter.
             const word = qdata.word.toUpperCase()
+            
             if (definitions[word]) {
-                res.writeHead(200, {'Content-Type': 'application/json'});
+                // If requested word is in the list of definitions. 
+                res.writeHead(200, {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                });
+                requestCount++;
                 response = {
                     'term': word,
                     'definition': definitions[word],
                     'requests': requestCount
                 };
             } else {
-                res.writeHead(400, {'Content-Type': 'application/json'});
+                // If requested word is NOT in the list of definitions.
+                res.writeHead(400, {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                });
                 response = {
-                    'error-message': "That word isn't in our dictionary.",
-                    'requests': requestCount
+                    'message': "That word isn't in our dictionary."
                 };
             }
         } else {
-            res.writeHead(400, {'Content-Type': 'application/json'});
+            // If request does NOT include "word" parameter.
+            res.writeHead(400, {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            });
             response = {
-                'error-message': "Invalid API call.",
+                'message': "Invalid API call.",
             };
         }
         res.end(JSON.stringify(response));
@@ -53,30 +66,48 @@ const server = http.createServer(function(req, res) {
             const qstring = url.parse(body, true);
             const qdata = qstring.query;
             if (qdata.word) {
+                // If "word" paramter is included.
                 const word = qdata.word.toUpperCase();
+
                 if (definitions[word]) {
-                    res.writeHead(400, {'Content-Type': 'application/json'});
+                    // If provided word is already in the list of definitions.
+                    res.writeHead(400, {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    });
                     response = {
-                        'error-message': "That word already has a definition."
+                        'message': "That word already has a definition."
                     };
                 } else if (utils.checkLettersOnly(word)) {
+                    // If provided word is not already in the list AND only includes letters.
                     requestCount++;
-                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.writeHead(200, {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    });
                     definitions[word] = qdata.definition;
                     response = {
-                        'error-message': "Success!",
+                        'message': "Success!",
                         'requests': requestCount
                     };    
                 } else {
-                    res.writeHead(400, {'Content-Type': 'application/json'});
+                    // If provided word includes numbers or punctuation.
+                    res.writeHead(400, {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    });
                     response = {
-                        'error-message': "Terms may only include letters, not numbers of punctuation."
+                        'message': "Terms may only include letters, not numbers of punctuation."
                     };
                 }
             } else {
-                res.writeHead(400, {'Content-Type': 'application/json'});
+                // If "word" paramter is NOT included.
+                res.writeHead(400, {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                });
                 response = {
-                    'error-message': "Invalid API call.",
+                    'message': "Invalid API call.",
                 };
             }
             res.end(JSON.stringify(response));
