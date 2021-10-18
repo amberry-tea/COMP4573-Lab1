@@ -25,7 +25,7 @@ function search(source){
         xhttp.onreadystatechange = function(){
             if(this.readyState == 4){ //Validate that the response is okay
                 console.log(xhttp.responseText);
-                json = JSON.parse(xhttp.responseText)
+                json = JSON.parse(xhttp.responseText);
                 definition = json.definition;
                 term = json.term;
                 requests = json.requests;

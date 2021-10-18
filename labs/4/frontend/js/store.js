@@ -4,6 +4,8 @@ const successMessageText = "New definition added!";
 // const preExistingDefinitionMessageText = "Definition is already in the dictionary!";
 const badInputMessageText = "Word must only contain characters within A-Z, a-z and spaces!";
 const emptyInputMessageText = "Enter a word and definition!";
+const requestsText = "</br>Requests: ";
+
 
 function store(source) {
     newWord = document.getElementById("input-word").value;
@@ -35,11 +37,14 @@ function store(source) {
         xhttp.onreadystatechange = function () {
             if (xhttp.readyState == 4) { //Validate the resonse is okay
                 console.log(xhttp.responseText);
-                responseText = JSON.parse(xhttp.responseText).message;
+                json = JSON.parse(xhttp.responseText)
+                responseText = json.message;
+                requests = json.requests;
+
                 if(xhttp.status == 200){
-                    resultTextElement.innerHTML = successMessageText;
+                    resultTextElement.innerHTML = successMessageText + requestsText + requests;
                 } else {
-                    resultTextElement.innerHTML = responseText;
+                    resultTextElement.innerHTML = responseText + requestsText + requests;
                 }
             } else {
                 console.log("readyState = " + this.readyState + "\nstate = " + this.state);
