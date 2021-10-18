@@ -37,8 +37,10 @@ const server = http.createServer(function(req, res) {
                     'Content-Type': 'text/html',
                     'Access-Control-Allow-Origin': '*'
                 });
+                requestCount++;
                 response = {
-                    'message': "That word isn't in our dictionary."
+                    'message': "That word isn't in our dictionary.",
+                    'requests': requestCount
                 };
             }
         } else {
@@ -75,8 +77,10 @@ const server = http.createServer(function(req, res) {
                         'Access-Control-Allow-Origin': '*',
                         'Access-Control-Allow-Methods': '*'
                     });
+                    requestCount++;
                     response = {
-                        'message': "That word already has a definition."
+                        'message': "That word already has a definition.",
+                        'requests': requestCount
                     };
                     res.end(JSON.stringify(response));
                 } else if (utils.checkLettersOnly(word)) {
@@ -100,8 +104,10 @@ const server = http.createServer(function(req, res) {
                         'Access-Control-Allow-Origin': '*',
                         'Access-Control-Allow-Methods': '*'
                     });
+                    requestCount++;
                     response = {
-                        'message': "Terms may only include letters, not numbers of punctuation."
+                        'message': "Terms may only include letters, not numbers of punctuation.",
+                        'requests': requestCount
                     };
                     res.end(JSON.stringify(response));
                 }
