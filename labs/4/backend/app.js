@@ -63,11 +63,10 @@ const server = http.createServer(function(req, res) {
             }
         });
         req.on('end', function () {
-            const qstring = url.parse(body, true);
-            const qdata = qstring.query;
-            if (qdata.word) {
-                // If "word" paramter is included.
-                const word = qdata.word.toUpperCase();
+            const data = JSON.parse(body)
+            if (data.word && data.definition) {
+                // If "word" and "definition" paramters are included.
+                const word = data.word.toUpperCase();
 
                 if (definitions[word]) {
                     // If provided word is already in the list of definitions.
@@ -85,7 +84,7 @@ const server = http.createServer(function(req, res) {
                         'Content-Type': 'application/json',
                         'Access-Control-Allow-Origin': '*'
                     });
-                    definitions[word] = qdata.definition;
+                    definitions[word] = data.definition;
                     response = {
                         'message': "Success!",
                         'requests': requestCount
@@ -107,7 +106,7 @@ const server = http.createServer(function(req, res) {
                     'Access-Control-Allow-Origin': '*'
                 });
                 response = {
-                    'message': "Invalid API call.",
+                    'message': "Invalid POST call.",
                 };
             }
             res.end(JSON.stringify(response));
