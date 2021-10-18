@@ -22,7 +22,7 @@ const server = http.createServer(function(req, res) {
             if (definitions[word]) {
                 // If requested word is in the list of definitions. 
                 res.writeHead(200, {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'text/html',
                     'Access-Control-Allow-Origin': '*'
                 });
                 requestCount++;
@@ -34,7 +34,7 @@ const server = http.createServer(function(req, res) {
             } else {
                 // If requested word is NOT in the list of definitions.
                 res.writeHead(400, {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'text/html',
                     'Access-Control-Allow-Origin': '*'
                 });
                 response = {
@@ -44,7 +44,7 @@ const server = http.createServer(function(req, res) {
         } else {
             // If request does NOT include "word" parameter.
             res.writeHead(400, {
-                'Content-Type': 'application/json',
+                'Content-Type': 'text/html',
                 'Access-Control-Allow-Origin': '*'
             });
             response = {
@@ -71,49 +71,52 @@ const server = http.createServer(function(req, res) {
                 if (definitions[word]) {
                     // If provided word is already in the list of definitions.
                     res.writeHead(400, {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'text/html',
                         'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Methods': POST
+                        'Access-Control-Allow-Methods': '*'
                     });
                     response = {
                         'message': "That word already has a definition."
                     };
+                    res.end(JSON.stringify(response));
                 } else if (utils.checkLettersOnly(word)) {
                     // If provided word is not already in the list AND only includes letters.
                     requestCount++;
                     res.writeHead(200, {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'text/html',
                         'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Methods': POST
+                        'Access-Control-Allow-Methods': '*'
                     });
                     definitions[word] = data.definition;
                     response = {
                         'message': "Success!",
                         'requests': requestCount
-                    };    
+                    };
+                    res.end(JSON.stringify(response));   
                 } else {
                     // If provided word includes numbers or punctuation.
                     res.writeHead(400, {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'text/html',
                         'Access-Control-Allow-Origin': '*',
-                        'Access-Control-Allow-Methods': POST
+                        'Access-Control-Allow-Methods': '*'
                     });
                     response = {
                         'message': "Terms may only include letters, not numbers of punctuation."
                     };
+                    res.end(JSON.stringify(response));
                 }
             } else {
                 // If word/definition parameters are NOT included.
                 res.writeHead(400, {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'text/html',
                     'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': POST
+                    'Access-Control-Allow-Methods': '*'
                 });
                 response = {
                     'message': "Invalid POST call.",
                 };
+                res.end(JSON.stringify(response));
             }
-            res.end(JSON.stringify(response));
         });
     }
 });
