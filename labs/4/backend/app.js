@@ -72,7 +72,8 @@ const server = http.createServer(function(req, res) {
                     // If provided word is already in the list of definitions.
                     res.writeHead(400, {
                         'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': POST
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': POST
                     });
                     response = {
                         'message': "That word already has a definition."
@@ -82,7 +83,8 @@ const server = http.createServer(function(req, res) {
                     requestCount++;
                     res.writeHead(200, {
                         'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': POST
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': POST
                     });
                     definitions[word] = data.definition;
                     response = {
@@ -93,7 +95,8 @@ const server = http.createServer(function(req, res) {
                     // If provided word includes numbers or punctuation.
                     res.writeHead(400, {
                         'Content-Type': 'application/json',
-                        'Access-Control-Allow-Origin': POST
+                        'Access-Control-Allow-Origin': '*',
+                        'Access-Control-Allow-Methods': POST
                     });
                     response = {
                         'message': "Terms may only include letters, not numbers of punctuation."
@@ -103,7 +106,8 @@ const server = http.createServer(function(req, res) {
                 // If word/definition parameters are NOT included.
                 res.writeHead(400, {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': POST
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': POST
                 });
                 response = {
                     'message': "Invalid POST call.",
