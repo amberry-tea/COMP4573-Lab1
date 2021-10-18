@@ -21,7 +21,10 @@ const server = http.createServer(function(req, res) {
             
             if (definitions[word]) {
                 // If requested word is in the list of definitions. 
-                res.writeHead(200, {'Content-Type': 'application/json'});
+                res.writeHead(200, {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                });
                 requestCount++;
                 response = {
                     'term': word,
@@ -30,14 +33,20 @@ const server = http.createServer(function(req, res) {
                 };
             } else {
                 // If requested word is NOT in the list of definitions.
-                res.writeHead(400, {'Content-Type': 'application/json'});
+                res.writeHead(400, {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                });
                 response = {
                     'message': "That word isn't in our dictionary."
                 };
             }
         } else {
             // If request does NOT include "word" parameter.
-            res.writeHead(400, {'Content-Type': 'application/json'});
+            res.writeHead(400, {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            });
             response = {
                 'message': "Invalid API call.",
             };
@@ -62,14 +71,20 @@ const server = http.createServer(function(req, res) {
 
                 if (definitions[word]) {
                     // If provided word is already in the list of definitions.
-                    res.writeHead(400, {'Content-Type': 'application/json'});
+                    res.writeHead(400, {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    });
                     response = {
                         'message': "That word already has a definition."
                     };
                 } else if (utils.checkLettersOnly(word)) {
                     // If provided word is not already in the list AND only includes letters.
                     requestCount++;
-                    res.writeHead(200, {'Content-Type': 'application/json'});
+                    res.writeHead(200, {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    });
                     definitions[word] = qdata.definition;
                     response = {
                         'message': "Success!",
@@ -77,14 +92,20 @@ const server = http.createServer(function(req, res) {
                     };    
                 } else {
                     // If provided word includes numbers or punctuation.
-                    res.writeHead(400, {'Content-Type': 'application/json'});
+                    res.writeHead(400, {
+                        'Content-Type': 'application/json',
+                        'Access-Control-Allow-Origin': '*'
+                    });
                     response = {
                         'message': "Terms may only include letters, not numbers of punctuation."
                     };
                 }
             } else {
                 // If "word" paramter is NOT included.
-                res.writeHead(400, {'Content-Type': 'application/json'});
+                res.writeHead(400, {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': '*'
+                });
                 response = {
                     'message': "Invalid API call.",
                 };
