@@ -32,7 +32,7 @@
     border-radius: 12px;
 }
 
-#input-textarea {
+.input-textarea {
     width: 500px;
     word-wrap: break-word;
 

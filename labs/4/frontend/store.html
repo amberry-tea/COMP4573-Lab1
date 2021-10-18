@@ -14,7 +14,10 @@
 
   <div class="text">
     <div class="input-bar">
-        <textarea id="input-textarea"></textarea>
+        <textarea id="input-word" class="input-textarea" placeholder="Word"></textarea>
+        </br>
+        <textarea id="input-definition" class="input-textarea" placeholder="Definition"></textarea>
+    </br>
       <button class="input-button" onclick="store(this);">Submit</button>
     </div>
   </br>
@@ -23,7 +26,7 @@
 </br>
 
 <div class="results text">
-  <span id="inner-results">Enter a term above to store to the dictionary</span>
+  <p id="inner-results">Enter a term above to store to the dictionary</span>
 </div>
 
 <script src="js/store.js"></script>
