@@ -17,26 +17,23 @@ function store(source) {
         searchTerm = searchTerm.trim();
 
         url = serverQueryUrl;
-        // params = {
-        //     'word': 'Book',
-        //     'definition': 'A written or printed work consisting of pages glued or sewn together'
-        // };
-        params = "?word=book&definition=A written or printed work consisting of pages glued or sewn together"
+        params = {
+            'word': 'Book',
+            'definition': 'A written or printed work consisting of pages glued or sewn together'
+        };
+        //params = "?word=book&definition=A written or printed work consisting of pages glued or sewn together"
 
         const xhttp = new XMLHttpRequest();
-        xhttp.open("POST", url, true);
-        xhttp.setRequestHeader('Content-Type', 'application/json');
-        // xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-        xhttp.send(params); //params in the body
         xhttp.onreadystatechange = function () {
-            if (this.readyState == 4) { //Validate the resonse is okay
-                console.log(this);
-                resultTextElement.value = recievedMessageText;
+            if (xhttp.readyState == 4) { //Validate the resonse is okay
+                console.log(xhttp.responseText);
+                //resultTextElement.value = recievedMessageText;
             } else {
                 console.log("readyState = " + this.readyState + "\nstate = " + this.state)
             }
         };
-
-
+        xhttp.open("POST", url, true);
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send(JSON.stringify(params)); //params in the body
     }
 }
