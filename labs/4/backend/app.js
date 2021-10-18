@@ -4,10 +4,7 @@ const GET = 'GET';
 const POST = 'POST';
 const utils = require('./modules/utils');
 
-const definitions = {
-    "HELLO": "A greeting.",
-    "GOODBYE": "Not a greeting."
-};
+const definitions = {};
 let requestCount = 0;
 
 const server = http.createServer(function(req, res) {
